@@ -2,7 +2,8 @@ import sys
 
 import pygame
 from scripts.entities import PhysicsEntity
-from scripts.utils import load_image
+from scripts.utils import load_image , load_images
+
 
 
 
@@ -11,15 +12,34 @@ class Game:
         pygame.init()
 
         pygame.display.set_caption('ninja game')
-        self.screen = pygame.display.set_mode((640, 480))
+        self.screen = pygame.display.set_mode((640, 480)) #.screen is the window
+        
+        self.display = pygame.Surface((320,240)) #.surface empty canvas
 
         self.clock = pygame.time.Clock()
         
         self.movement = [False, False]
         
         self.assets = {
+            'decor': load_images('tiles/decor'),
+            'grass': load_images('tiles/grass'),
+            'stone': load_images('tiles/stone'),
+            'large_decor': load_images('tiles/large_decor'),
             'player': load_image('entities/player.png')
         }
+        
+        print(self.assets)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         self.player = PhysicsEntity(self, 'player', (50,50), (8,15))
         
@@ -33,12 +53,12 @@ class Game:
     def run(self):
         while True:
            
-            self.screen.fill((14, 220, 250))
+            self.display.fill((14, 220, 250))
             
             
             self.player.update([self.movement[1], self.movement[0]])
             
-            self.player.render(self.screen)
+            self.player.render(self.display)
            
             
             for event in pygame.event.get():
@@ -55,7 +75,7 @@ class Game:
                         self.movement[0] = False
                     elif event.key == pygame.K_RIGHT:
                         self.movement[1] = False
-            
+            self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0,0)) #.blit is to draw on the screen gives pixel art look
             pygame.display.update()
             self.clock.tick(60)
 
