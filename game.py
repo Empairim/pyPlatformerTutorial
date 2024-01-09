@@ -12,9 +12,12 @@ class Game:
         self.clock = pygame.time.Clock()
         
         self.img = pygame.image.load('data/images/clouds/cloud_1.png')
+        self.img.set_colorkey((0, 0, 0)) # black transparent
         
         self.img_pos = [160, 260]
-        self.movement = [False, False]
+        self.movement = [False, False] 
+        
+        self.collision_area = pygame.Rect(50,50,300,50)
         
     def run(self):
         while True:
@@ -22,7 +25,14 @@ class Game:
             self.screen.fill((14, 220, 250))
            
             self.img_pos[1] += (self.movement[1] - self.movement[0]) * 5
-            
+
+            img_r = pygame.Rect(self.img_pos[0], self.img_pos[1], self.img.get_width(), self.img.get_height())
+            if img_r.colliderect(self.collision_area):
+                print('collision') # collision detected rect overlap
+                pygame.draw.rect(self.screen, (255,0,0), self.collision_area)
+            else:
+                pygame.draw.rect(self.screen, (0,255,0), self.collision_area)
+                
             self.screen.blit(self.img, self.img_pos)
           
             
