@@ -3,6 +3,7 @@ import sys
 import pygame
 from scripts.entities import PhysicsEntity
 from scripts.utils import load_image , load_images
+from scripts.tilemap import Tilemap
 
 
 
@@ -28,7 +29,7 @@ class Game:
             'player': load_image('entities/player.png')
         }
         
-        print(self.assets)
+        
         
         
         
@@ -42,6 +43,7 @@ class Game:
         
         
         self.player = PhysicsEntity(self, 'player', (50,50), (8,15))
+        self.tilemap = Tilemap(self,tile_size=16)
         
         
         
@@ -54,6 +56,7 @@ class Game:
         while True:
            
             self.display.fill((14, 220, 250))
+            self.tilemap.render(self.display)
             
             
             self.player.update([self.movement[1], self.movement[0]])
